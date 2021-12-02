@@ -1,11 +1,19 @@
 use std::fs;
+use std::time;
 use aoc2021;
 
 
 fn main() {
+    let start_total = time::Instant::now();
     let data = fs::read_to_string("inputs/01").unwrap();
-    println!("Part 1: {}", part1(&data));
-    println!("Part 2: {}", part2(&data));
+
+    let start_part1 = time::Instant::now();
+    println!("Part 1: {} in {:?}", part1(&data), start_part1.elapsed());
+
+    let start_part2 = time::Instant::now();
+    println!("Part 2: {} in {:?}", part2(&data), start_part2.elapsed());
+
+    println!("Total: {:?}", start_total.elapsed())
 }
 
 
