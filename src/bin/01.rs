@@ -4,16 +4,16 @@ use aoc2021;
 
 fn main() {
     let data = fs::read_to_string("inputs/01").unwrap();
-    println!("Part 1: {}", count_increases(&data));
-    println!("Part 2: {}", count_increases_window(&data));
+    println!("Part 1: {}", part1(&data));
+    println!("Part 2: {}", part2(&data));
 }
 
 
-fn count_increases(data: &str) -> isize {
+fn part1(data: &str) -> isize {
     let depths = aoc2021::str_to_isize_vec(data);
     let mut previous = depths[0];
     let mut n_increases = 0;
-    for depth in depths {
+    for &depth in depths[1..].iter() {
         if depth > previous {
             n_increases += 1;
         }
@@ -23,12 +23,12 @@ fn count_increases(data: &str) -> isize {
 }
 
 
-fn count_increases_window(data: &str) -> isize {
+fn part2(data: &str) -> isize {
     let depths = aoc2021::str_to_isize_vec(data);
     let mut previous : isize = depths[0..3].iter().sum();
     let mut n_increases = 0;
-    for index in 1..=(depths.len())-3 {
-        let new_sum = depths[index..index+3].iter().sum();
+    for depth_group in depths[1..].windows(3) {
+        let new_sum = depth_group.iter().sum();
         if new_sum > previous {
             n_increases += 1;
         }
@@ -53,12 +53,12 @@ mod tests {
 263";
 
     #[test]
-    fn part1() {
-        assert_eq!(count_increases(DATA), 7);
+    fn part1_matches_sample() {
+        assert_eq!(part1(DATA), 7);
     }
 
     #[test]
-    fn part2() {
-        assert_eq!(count_increases_window(DATA), 5);
+    fn part2_matches_sample() {
+        assert_eq!(part2(DATA), 5);
     }
 }
