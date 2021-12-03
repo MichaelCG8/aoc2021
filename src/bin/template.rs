@@ -34,11 +34,11 @@ mod tests {
 
     #[test]
     fn part1_matches_sample() {
-        // assert_eq!(count_increases(DATA), 7);
+        // assert_eq!(part1(DATA), 7);
     }
 
     #[test]
     fn part2_matches_sample() {
-        // assert_eq!(count_increases_window(DATA), 5);
+        // assert_eq!(part2(DATA), 5);
     }
 }
