@@ -25,7 +25,7 @@ fn part1(data: &str, days: isize) -> isize {
 
     for _day in 0..days {
         // Rotate the array so every timer decrements, and the re-spawning ones
-        // wrap to index 7. Also, the amount that wrapped to 7 should add to index 5.
+        // wrap to index 8. Also, the amount that wrapped to 8 should add to index 6.
         ages.rotate_left(1);
         ages[6] += ages[8];
     }
