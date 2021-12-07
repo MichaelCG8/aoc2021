@@ -2,11 +2,15 @@ use std::str::FromStr;
 use std::fmt::Debug;
 
 
-pub fn str_to_isize_vec(data: &str) -> Vec<isize> {
+pub fn lines_to_vec<T>(data: &str) -> Vec<T>
+    where T: FromStr,
+          <T as FromStr>::Err: Debug,
+{
     data.trim().split("\n").map(|s| s.parse().unwrap()).collect()
 }
 
 
+// TODO: Replace with generic version.
 pub fn str_to_str_isize_vec(data: &str) -> Vec<(&str, isize)> {
     data.trim().split("\n").map(|s| {
         let mut str_isize = s.split(" ");
@@ -15,9 +19,9 @@ pub fn str_to_str_isize_vec(data: &str) -> Vec<(&str, isize)> {
 }
 
 
-pub fn comma_separated_num_to_vec<T>(data: &str) -> Vec<T>
+pub fn comma_separated_to_vec<T>(data: &str) -> Vec<T>
     where T: FromStr,
-          <T as FromStr>::Err: Debug
+          <T as FromStr>::Err: Debug,
 {
     data.trim().split(",").map(|s| s.parse().unwrap()).collect()
 }
