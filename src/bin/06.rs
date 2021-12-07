@@ -1,23 +1,22 @@
-use std::fs;
 use std::time;
 use aoc2021;
 
 
 fn main() {
     let start_total = time::Instant::now();
-    let data = fs::read_to_string("inputs/06").unwrap();
+    let data = include_str!("../../inputs/06");
     let start_part1 = time::Instant::now();
-    println!("Part 1: {} in {:?}", part1(&data, 80), start_part1.elapsed());
+    println!("Part 1: {} in {:?}", part1(data, 80), start_part1.elapsed());
     let start_part2 = time::Instant::now();
     let part2 = part1;
-    println!("Part 2: {} in {:?}", part2(&data, 256), start_part2.elapsed());
+    println!("Part 2: {} in {:?}", part2(data, 256), start_part2.elapsed());
 
     println!("Total: {:?}", start_total.elapsed())
 }
 
 
 fn part1(data: &str, days: isize) -> isize {
-    let ages_list = aoc2021::comma_separated_to_usize_vec(data);
+    let ages_list: Vec<usize> = aoc2021::comma_separated_to_vec::<usize>(data);
     let mut ages = [0; 9];
     for age in ages_list {
         ages[age] += 1;

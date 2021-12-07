@@ -1,48 +1,30 @@
-use std::fs;
 use std::time;
 use aoc2021;
 
 
 fn main() {
     let start_total = time::Instant::now();
-    let data = fs::read_to_string("inputs/01").unwrap();
+    let data = include_str!("../../inputs/01");
 
     let start_part1 = time::Instant::now();
-    println!("Part 1: {} in {:?}", part1(&data), start_part1.elapsed());
+    println!("Part 1: {} in {:?}", part1(data), start_part1.elapsed());
 
     let start_part2 = time::Instant::now();
-    println!("Part 2: {} in {:?}", part2(&data), start_part2.elapsed());
+    println!("Part 2: {} in {:?}", part2(data), start_part2.elapsed());
 
     println!("Total: {:?}", start_total.elapsed())
 }
 
 
-fn part1(data: &str) -> isize {
-    let depths = aoc2021::str_to_isize_vec(data);
-    let mut previous = depths[0];
-    let mut n_increases = 0;
-    for &depth in depths[1..].iter() {
-        if depth > previous {
-            n_increases += 1;
-        }
-        previous = depth;
-    }
-    n_increases
+fn part1(data: &str) -> usize {
+    let depths: Vec<isize> = aoc2021::lines_to_vec(data);
+    depths.windows(2).filter(|w| w[1] > w[0]).count()
 }
 
 
-fn part2(data: &str) -> isize {
-    let depths = aoc2021::str_to_isize_vec(data);
-    let mut previous : isize = depths[0..3].iter().sum();
-    let mut n_increases = 0;
-    for depth_group in depths[1..].windows(3) {
-        let new_sum = depth_group.iter().sum();
-        if new_sum > previous {
-            n_increases += 1;
-        }
-        previous = new_sum;
-    }
-    n_increases
+fn part2(data: &str) -> usize {
+    let depths: Vec<isize> = aoc2021::lines_to_vec(data);
+    depths.windows(4).filter(|w| w[3] > w[0]).count()
 }
 
 

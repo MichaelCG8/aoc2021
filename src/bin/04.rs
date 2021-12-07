@@ -1,6 +1,4 @@
-use std::fs;
 use std::time;
-use aoc2021;
 
 struct Card {
     numbers: [[isize; 5]; 5],
@@ -50,11 +48,11 @@ impl Card {
 
 fn main() {
     let start_total = time::Instant::now();
-    let data = fs::read_to_string("inputs/04").unwrap();
+    let data = include_str!("../../inputs/04");
     let start_part1 = time::Instant::now();
-    println!("Part 1: {} in {:?}", part1(&data), start_part1.elapsed());
+    println!("Part 1: {} in {:?}", part1(data), start_part1.elapsed());
     let start_part2 = time::Instant::now();
-    println!("Part 2: {} in {:?}", part2(&data), start_part2.elapsed());
+    println!("Part 2: {} in {:?}", part2(data), start_part2.elapsed());
 
     println!("Total: {:?}", start_total.elapsed())
 }
