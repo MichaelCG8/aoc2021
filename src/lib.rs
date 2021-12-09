@@ -25,3 +25,14 @@ pub fn comma_separated_to_vec<T>(data: &str) -> Vec<T>
 {
     data.trim().split(",").map(|s| s.parse().unwrap()).collect()
 }
+
+
+pub fn grid<T>(data: &str) -> Vec<Vec<T>>
+    where T: FromStr,
+          <T as FromStr>::Err: Debug,
+{
+    data
+    .lines()
+    .map(|l| l.chars().map(|c| c.to_string().parse().unwrap()).collect())
+    .collect()
+}
