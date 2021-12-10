@@ -4,7 +4,7 @@ use aoc2021;
 
 fn main() {
     let start_total = time::Instant::now();
-    let data = include_str!("../../inputs/0");
+    let data = include_str!("../../inputs/1");
     let start_part1 = time::Instant::now();
     println!("Part 1: {} in {:?}", part1(data), start_part1.elapsed());
     let start_part2 = time::Instant::now();
