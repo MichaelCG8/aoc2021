@@ -14,12 +14,12 @@ fn main() {
 }
 
 
-fn part1(data: &str) -> isize {
+fn part1(data: &str) -> usize {
 
 }
 
 
-// fn part2(data: &str) -> isize {
+// fn part2(data: &str) -> usize {
 //
 // }
 

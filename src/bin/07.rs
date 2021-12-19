@@ -1,5 +1,6 @@
 use std::time;
 use aoc2021;
+use aoc2021::math::tri_f64;
 
 
 fn main() {
@@ -27,17 +28,14 @@ fn part2(data: &str) -> f64 {
     let mean = locations.iter().sum::<f64>() / locations.len() as f64;
 
     let low = mean.floor();
-    let at_low = locations.iter().map(|&l| tri((l - low).abs())).sum();
+    let at_low = locations.iter().map(|&l| tri_f64((l - low).abs())).sum();
 
     let high = mean.ceil();
-    let at_high = locations.iter().map(|&l| tri((l - high).abs())).sum();
+    let at_high = locations.iter().map(|&l| tri_f64((l - high).abs())).sum();
 
     if at_low < at_high { at_low } else { at_high }
 }
 
-fn tri(value: f64) -> f64 {
-    value * (value + 1.0) / 2.0
-}
 
 #[cfg(test)]
 mod tests {

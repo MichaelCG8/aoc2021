@@ -36,3 +36,26 @@ pub fn grid<T>(data: &str) -> Vec<Vec<T>>
     .map(|l| l.chars().map(|c| c.to_string().parse().unwrap()).collect())
     .collect()
 }
+
+
+pub mod math {
+    pub fn tri_f64(value: f64) -> f64 {
+        value * (value + 1.0) / 2.0
+    }
+
+    pub fn tri_base_f64(value: f64, rows: f64) -> f64 {
+        tri_f64(value) - tri_f64(value - rows)
+    }
+
+    pub fn tri_isize(value: isize) -> isize {
+        value * (value + 1) / 2
+    }
+
+    pub fn tri_base_isize(value: isize, rows: isize) -> isize {
+        tri_isize(value) - tri_isize(value - rows)
+    }
+
+    pub fn tri_inv(value: f64) -> f64 {
+        (2.0 * value + 1.0/4.0).sqrt() - 1.0/2.0
+    }
+}
