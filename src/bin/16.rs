@@ -128,7 +128,7 @@ fn parse_packet(mut binary: String) -> (Packet, String) {
 fn parse_packets(mut binary: String) -> Vec<Packet>
 {
     let mut result = Vec::new();
-    while binary.len() > 0 {
+    while !binary.is_empty() {
         if binary.chars().all(|c| c == '0') { break; }
         let (packet, trimmed_binary) = parse_packet(binary);
         binary = trimmed_binary;

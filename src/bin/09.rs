@@ -1,6 +1,5 @@
 use std::collections::HashSet;
 use std::time;
-use aoc2021;
 
 
 fn main() {
@@ -53,13 +52,13 @@ fn part2(data: &str) -> usize {
             basins.push(get_basin_size(&map, row, col, height, width));
         }
     }
-    basins.sort();
+    basins.sort_unstable();
     basins.reverse();
     basins[..3].iter().product()
 }
 
 
-fn get_basin_size(map: &Vec<Vec<isize>>, start_row: usize, start_col: usize, height: usize, width: usize) -> usize {
+fn get_basin_size(map: &[Vec<isize>], start_row: usize, start_col: usize, height: usize, width: usize) -> usize {
     let mut basin_size = 0;
 
     // Process this row
@@ -72,11 +71,11 @@ fn get_basin_size(map: &Vec<Vec<isize>>, start_row: usize, start_col: usize, hei
         let mut these_cols = HashSet::new();
         for &c in &previous_cols {
             let new_cols = get_basin_row_around_point(&map[row], c, width);
-            these_cols = these_cols.union(&new_cols).map(|&c| c).collect();
+            these_cols = these_cols.union(&new_cols).copied().collect();
         }
         previous_cols = these_cols;
         basin_size += previous_cols.len();
-        if previous_cols.len() == 0 { break; }
+        if previous_cols.is_empty() { break; }
     }
 
     // Process rows above
@@ -85,17 +84,17 @@ fn get_basin_size(map: &Vec<Vec<isize>>, start_row: usize, start_col: usize, hei
         let mut these_cols = HashSet::new();
         for &c in &previous_cols {
             let new_cols = get_basin_row_around_point(&map[row], c, width);
-            these_cols = these_cols.union(&new_cols).map(|&c| c).collect();
+            these_cols = these_cols.union(&new_cols).copied().collect();
         }
         previous_cols = these_cols;
         basin_size += previous_cols.len();
-        if previous_cols.len() == 0 { break; }
+        if previous_cols.is_empty() { break; }
     }
 
     basin_size
 }
 
-fn get_basin_row_around_point(row: &Vec<isize>, point: usize, width: usize) -> HashSet<usize> {
+fn get_basin_row_around_point(row: &[isize], point: usize, width: usize) -> HashSet<usize> {
     let mut cols = HashSet::new();
     for col in point..width {
         if row[col] == 9 { break; }

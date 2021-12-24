@@ -1,5 +1,4 @@
 use std::time;
-use aoc2021;
 
 
 fn main() {
@@ -15,7 +14,7 @@ fn main() {
 
 
 fn part1(data: &str) -> usize {
-
+    todo!()
 }
 
 

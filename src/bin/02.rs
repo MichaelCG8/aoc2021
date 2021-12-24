@@ -1,5 +1,4 @@
 use std::time;
-use aoc2021;
 
 
 fn main() {
@@ -17,7 +16,7 @@ fn main() {
 
 
 fn part1(data: &str) -> isize {
-    let data = aoc2021::str_to_str_isize_vec(&data);
+    let data = aoc2021::str_to_str_isize_vec(data);
     let forward: isize = data.iter().filter(|(direction, _num)| direction == &"forward").map(|(_direction, num)| num).sum();
     let up: isize = data.iter().filter(|(direction, _num)| direction == &"up").map(|(_direction, num)| num).sum();
     let down: isize = data.iter().filter(|(direction, _num)| direction == &"down").map(|(_direction, num)| num).sum();
@@ -27,7 +26,7 @@ fn part1(data: &str) -> isize {
 
 
 fn part2(data: &str) -> isize {
-    let data = aoc2021::str_to_str_isize_vec(&data);
+    let data = aoc2021::str_to_str_isize_vec(data);
     let mut horizontal = 0;
     let mut depth = 0;
     let mut aim = 0;

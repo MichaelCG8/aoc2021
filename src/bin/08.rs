@@ -25,20 +25,20 @@ impl FromStr for IO7Seg {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut sections = s.split("|");
+        let mut sections = s.split('|');
 
         let input = sections
             .next()
             .unwrap()
             .split_whitespace()
-            .map(|s1| { let mut v = s1.chars().collect::<Vec<char>>(); v.sort(); v.iter().collect::<String>()})
+            .map(|s1| { let mut v = s1.chars().collect::<Vec<char>>(); v.sort_unstable(); v.iter().collect::<String>()})
             .collect();
 
         let output = sections
             .next()
             .unwrap()
             .split_whitespace()
-            .map(|s1| { let mut v = s1.chars().collect::<Vec<char>>(); v.sort(); v.iter().collect::<String>()})
+            .map(|s1| { let mut v = s1.chars().collect::<Vec<char>>(); v.sort_unstable(); v.iter().collect::<String>()})
             .collect();
 
         let patterns = None;
@@ -51,11 +51,11 @@ impl IO7Seg {
     fn count_output_1478(&self) -> usize {
         self.output
             .iter()
-            .filter(|d| match d.len() { 2 | 4 | 3 | 7 => true, _ => false })
+            .filter(|d| matches!(d.len(), 2 | 4 | 3 | 7))
             .count()
     }
 
-    fn identify_patterns(&'_ mut self) -> () {
+    fn identify_patterns(&'_ mut self) {
         if self.patterns.is_some() { return; }
         let mut patterns = HashMap::new();
 

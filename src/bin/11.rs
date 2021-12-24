@@ -1,6 +1,5 @@
 use std::str::FromStr;
 use std::time;
-use aoc2021;
 
 
 fn main() {
@@ -90,13 +89,8 @@ impl Cave {
                 stack.push((row, col));
             }
         }
-        loop {
-            match stack.pop() {
-                Some((row, col)) => {
-                    self.grid[row][col].increment(&mut stack)
-                },
-                None => break,
-            }
+        while let Some((row, col)) = stack.pop() {
+            self.grid[row][col].increment(&mut stack)
         }
     }
 

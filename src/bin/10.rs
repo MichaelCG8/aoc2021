@@ -95,7 +95,7 @@ fn part2(data: &str) -> usize {
         scores.push(this_score);
     }
 
-    scores.sort();
+    scores.sort_unstable();
     let mid_idx = scores.len() / 2;
     scores[mid_idx]
 }

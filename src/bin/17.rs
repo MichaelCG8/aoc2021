@@ -1,6 +1,5 @@
 use std::collections::HashSet;
 use std::time;
-use aoc2021;
 use aoc2021::math::{tri_isize, tri_base_isize, tri_inv};
 
 use regex::Regex;

@@ -50,7 +50,7 @@ fn part2(data: &str) -> isize {
         let zeros = lines.iter().filter(|line| line[i..i+1] == '0'.to_string()).count();
         let ones = lines.iter().filter(|line| line[i..i+1] == '1'.to_string()).count();
         let most_common = if zeros > ones {'0'} else {'1'};
-        lines = lines.iter().filter(|line| line[i..i+1] == most_common.to_string()).map(|&s| s).collect();
+        lines = lines.iter().filter(|line| line[i..i+1] == most_common.to_string()).copied().collect();
         if lines.len() == 1 { break; }
     }
     let ogr = isize::from_str_radix(lines[0], 2).unwrap();
@@ -60,7 +60,7 @@ fn part2(data: &str) -> isize {
         let zeros = lines.iter().filter(|line| line[i..i+1] == '0'.to_string()).count();
         let ones = lines.iter().filter(|line| line[i..i+1] == '1'.to_string()).count();
         let most_common = if zeros > ones {'0'} else {'1'};
-        lines = lines.iter().filter(|line| line[i..i+1] != most_common.to_string()).map(|&s| s).collect();
+        lines = lines.iter().filter(|line| line[i..i+1] != most_common.to_string()).copied().collect();
         if lines.len() == 1 { break; }
     }
     let csr = isize::from_str_radix(lines[0], 2).unwrap();

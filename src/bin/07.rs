@@ -1,5 +1,4 @@
 use std::time;
-use aoc2021;
 use aoc2021::math::tri_f64;
 
 

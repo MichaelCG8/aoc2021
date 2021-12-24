@@ -1,3 +1,4 @@
+use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 use std::time;
 
@@ -26,20 +27,20 @@ impl FromStr for Grid {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let width = s
             .lines()
-            .map(|l| l.split(",").nth(0).unwrap().parse::<usize>().unwrap())
+            .map(|l| l.split(',').nth(0).unwrap().parse::<usize>().unwrap())
             .max()
             .unwrap()
             + 1;
         let height = s
             .lines()
-            .map(|l| l.split(",").nth(1).unwrap().parse::<usize>().unwrap())
+            .map(|l| l.split(',').nth(1).unwrap().parse::<usize>().unwrap())
             .max()
             .unwrap()
             + 1;
         let mut elements = vec![vec![false; width]; height];
 
         for line in s.lines() {
-            let mut split = line.split(",");
+            let mut split = line.split(',');
             let x: usize = split.next().unwrap().parse().unwrap();
             let y: usize = split.next().unwrap().parse().unwrap();
             elements[y][x] = true;
@@ -88,16 +89,21 @@ impl Grid {
         self.elements.truncate(line);
         self.height = line;
     }
-
-    fn to_string(&self) -> String {
-        self.elements
-            .iter()
-            .map(|row| row.iter().map(|&c| if c {'#'} else {'.'}).collect::<String>())
-            .collect::<Vec<String>>()
-            .join("\n")
-    }
 }
 
+impl Display for Grid {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.elements
+                .iter()
+                .map(|row| row.iter().map(|&c| if c {'#'} else {'.'}).collect::<String>())
+                .collect::<Vec<String>>()
+                .join("\n")
+        )
+    }
+}
 
 struct Fold {
     axis: char,

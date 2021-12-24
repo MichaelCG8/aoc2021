@@ -129,7 +129,7 @@ fn part2(data: &str) -> usize {
 }
 
 
-fn enhance(image: &mut Image, algorithm: &Vec<usize>, now_filler: usize, next_filler: usize) {
+fn enhance(image: &mut Image, algorithm: &[usize], now_filler: usize, next_filler: usize) {
     for row in image.iter_mut() {
         row.push_front(Element{ now: now_filler, next: next_filler});
         row.push_back(Element{ now: now_filler, next: next_filler});

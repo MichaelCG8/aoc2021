@@ -39,7 +39,7 @@ impl Polymer {
             let bond: Vec<char> = pair.next().unwrap().chars().collect();
             let bond = (bond[0], bond[1]);
             let insert = pair.next().unwrap();
-            process.insert(bond, insert.chars().nth(0).unwrap());
+            process.insert(bond, insert.chars().next().unwrap());
         }
 
         Self { bonds, process, start: initial[0], end: initial[initial.len()-1]}
@@ -48,8 +48,8 @@ impl Polymer {
     fn step(&mut self) {
         let mut new_bonds = HashMap::new();
         for (bond, count) in self.bonds.iter() {
-            let &insert = self.process.get(&bond).unwrap();
-            *new_bonds.entry((bond.0, insert.clone())).or_insert(0) += count;
+            let &insert = self.process.get(bond).unwrap();
+            *new_bonds.entry((bond.0, insert)).or_insert(0) += count;
             *new_bonds.entry((insert, bond.1)).or_insert(0) += count;
         }
         self.bonds = new_bonds;

@@ -16,7 +16,7 @@ impl Card {
         let mut sum = 0;
         let result = 0;
 
-        for (idx_r, line) in data.split("\n").enumerate() {
+        for (idx_r, line) in data.split('\n').enumerate() {
             for (idx_c, entry) in line.trim().split_whitespace().enumerate() {
                 let value = entry.parse().unwrap();
                 sum += value;
@@ -60,7 +60,7 @@ fn main() {
 
 fn part1(data: &str) -> isize {
     let mut blocks = data.split("\n\n");
-    let numbers = blocks.next().unwrap().split(",").map(|s| s.parse().unwrap());
+    let numbers = blocks.next().unwrap().split(',').map(|s| s.parse().unwrap());
 
     let mut cards: Vec<Card> = blocks.map(|s| Card::new(s)).collect();
 
@@ -78,7 +78,7 @@ fn part1(data: &str) -> isize {
 
 fn part2(data: &str) -> isize {
     let mut blocks = data.split("\n\n");
-    let numbers: Vec<isize> = blocks.next().unwrap().split(",").map(|s| s.parse().unwrap()).collect();
+    let numbers: Vec<isize> = blocks.next().unwrap().split(',').map(|s| s.parse().unwrap()).collect();
 
     let mut cards: Vec<Card> = blocks.map(|s| Card::new(s)).collect();
 
