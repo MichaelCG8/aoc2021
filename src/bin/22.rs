@@ -18,8 +18,8 @@ fn part1(data: &str) -> usize {
     let mut engine = [[[false; 101]; 101]; 101];
     let re = Regex::new(r"^(?P<op>on|off) x=(?P<x_lo>-?\d+)..(?P<x_hi>-?\d+),y=(?P<y_lo>-?\d+)..(?P<y_hi>-?\d+),z=(?P<z_lo>-?\d+)..(?P<z_hi>-?\d+)$").unwrap();
 
-    let captures = re.captures(line).unwrap();
     for line in data.lines() {
+        let captures = re.captures(line).unwrap();
         let setting = captures.name("op").unwrap().as_str() == "on";
         let mut x_lo = captures.name("x_lo").unwrap().as_str().parse::<isize>().unwrap();
         if x_lo < -50 { x_lo = -50; }
