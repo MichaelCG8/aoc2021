@@ -1,4 +1,5 @@
 use std::fmt::Debug;
+use std::ops::{Deref, DerefMut};
 use std::str::FromStr;
 
 pub fn lines_to_vec<T>(data: &str) -> Vec<T>
@@ -22,6 +23,48 @@ pub fn str_to_str_isize_vec(data: &str) -> Vec<(&str, isize)> {
         .collect()
 }
 
+pub struct Grid<T>(pub Vec<Vec<T>>);
+
+impl <T> Grid<T> {
+    pub fn enum_grid(data: &str, mapping: &[char]) -> Self
+        where T: EnumFromInt
+    {
+        Self(
+            data
+                .lines()
+                .map(
+                    |l|
+                    l.chars().map(|c| {
+                        let index = mapping.iter().take_while(|&&val| val != c).count();
+                        T::from_int(index)
+                    }).collect()
+                ).collect()
+        )
+    }
+
+    pub fn height(&self) -> usize {
+        self.0.len()
+    }
+
+    pub fn width(&self) -> usize {
+        self.0[0].len()
+    }
+}
+
+impl<T> Deref for Grid<T> {
+    type Target = Vec<Vec<T>>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl<T> DerefMut for Grid<T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
 pub fn comma_separated_to_vec<T>(data: &str) -> Vec<T>
 where
     T: FromStr,
@@ -38,6 +81,10 @@ where
     data.lines()
         .map(|l| l.chars().map(|c| c.to_string().parse().unwrap()).collect())
         .collect()
+}
+
+pub trait EnumFromInt {
+    fn from_int(index: usize) -> Self;
 }
 
 pub mod math {

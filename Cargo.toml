@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 regex = "1.5"
+#enum_from_int_macro_derive = { path = "./EnumFromInt_macro_derive" }
