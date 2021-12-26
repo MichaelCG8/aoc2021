@@ -1,6 +1,5 @@
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/1");
@@ -12,21 +11,18 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn part1(data: &str) -> usize {
     todo!()
 }
-
 
 // fn part2(data: &str) -> usize {
 //
 // }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "";
+    static DATA: &str = "";
 
     #[test]
     fn part1_matches_sample() {

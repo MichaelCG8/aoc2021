@@ -1,7 +1,6 @@
 use std::str::FromStr;
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/11");
@@ -39,7 +38,7 @@ impl Dumbo {
             return;
         }
         self.charge += 1;
-        if self. charge > 9 {
+        if self.charge > 9 {
             self.flashed = true;
             self.charge = 0;
             self.n_flashes += 1;
@@ -49,7 +48,6 @@ impl Dumbo {
         }
     }
 }
-
 
 struct Cave {
     grid: Vec<Vec<Dumbo>>,
@@ -67,11 +65,13 @@ impl FromStr for Cave {
 
         for row in 0..height {
             for col in 0..width {
-                for neighbour_row in (row-1)..=(row+1) {
+                for neighbour_row in (row - 1)..=(row + 1) {
                     if neighbour_row < 0 || neighbour_row >= height { continue; }
-                    for neighbour_col in (col-1)..=(col+1) {
+                    for neighbour_col in (col - 1)..=(col + 1) {
                         if neighbour_col < 0 || neighbour_col >= width { continue; }
-                        grid[row as usize][col as usize].neighbours.push((neighbour_row as usize, neighbour_col as usize));
+                        grid[row as usize][col as usize]
+                            .neighbours
+                            .push((neighbour_row as usize, neighbour_col as usize));
                     }
                 }
             }
@@ -79,7 +79,6 @@ impl FromStr for Cave {
         Ok(Cave{ grid, height: height as usize, width: width as usize })
     }
 }
-
 
 impl Cave {
     pub fn step(&mut self) {
@@ -103,8 +102,7 @@ impl Cave {
     }
 
     pub fn all_flashed(&self) -> bool {
-        self
-            .grid
+        self.grid
             .iter()
             .all(|row| row.iter().all(|dumbo| dumbo.flashed))
     }
@@ -120,7 +118,6 @@ impl Cave {
     }
 }
 
-
 fn part1(data: &str) -> usize {
     let mut cave = Cave::from_str(data).unwrap();
     for _step in 0..100 {
@@ -129,7 +126,6 @@ fn part1(data: &str) -> usize {
     }
     cave.get_flashes()
 }
-
 
 fn part2(data: &str) -> isize {
     let mut cave = Cave::from_str(data).unwrap();
@@ -145,11 +141,10 @@ fn part2(data: &str) -> isize {
     step
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "5483143223
+    static DATA: &str = "5483143223
 2745854711
 5264556173
 6141336146

@@ -1,6 +1,5 @@
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/02");
@@ -14,16 +13,26 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn part1(data: &str) -> isize {
     let data = aoc2021::str_to_str_isize_vec(data);
-    let forward: isize = data.iter().filter(|(direction, _num)| direction == &"forward").map(|(_direction, num)| num).sum();
-    let up: isize = data.iter().filter(|(direction, _num)| direction == &"up").map(|(_direction, num)| num).sum();
-    let down: isize = data.iter().filter(|(direction, _num)| direction == &"down").map(|(_direction, num)| num).sum();
+    let forward: isize = data
+        .iter()
+        .filter(|(direction, _num)| direction == &"forward")
+        .map(|(_direction, num)| num)
+        .sum();
+    let up: isize = data
+        .iter()
+        .filter(|(direction, _num)| direction == &"up")
+        .map(|(_direction, num)| num)
+        .sum();
+    let down: isize = data
+        .iter()
+        .filter(|(direction, _num)| direction == &"down")
+        .map(|(_direction, num)| num)
+        .sum();
 
     forward * (down - up)
 }
-
 
 fn part2(data: &str) -> isize {
     let data = aoc2021::str_to_str_isize_vec(data);
@@ -34,8 +43,11 @@ fn part2(data: &str) -> isize {
         match command {
             "up" => aim -= value,
             "down" => aim += value,
-            "forward" => { horizontal += value; depth += aim * value; },
-            _ => panic!("Got an unrecognised command.")
+            "forward" => {
+                horizontal += value;
+                depth += aim * value;
+            }
+            _ => panic!("Got an unrecognised command."),
         }
     }
     horizontal * depth
@@ -44,7 +56,7 @@ fn part2(data: &str) -> isize {
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "forward 5
+    static DATA: &str = "forward 5
 down 5
 forward 8
 up 3

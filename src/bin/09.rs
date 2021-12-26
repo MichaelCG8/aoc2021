@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/09");
@@ -13,7 +12,6 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn part1(data: &str) -> isize {
     let map: Vec<Vec<isize>> = aoc2021::grid(data);
     let height = map.len();
@@ -23,17 +21,16 @@ fn part1(data: &str) -> isize {
     for row in 0..height {
         let this_row = &map[row];
         for col in 0..width {
-            if (row != 0) && map[row-1][col] <= this_row[col] { continue; }
-            if (row != height - 1) && map[row+1][col] <= this_row[col] { continue; }
-            if (col != 0) && (this_row[col-1] <= this_row[col]) { continue; }
-            if (col != (width - 1)) && (this_row[col+1] <= this_row[col]) { continue; }
+            if (row != 0) && map[row - 1][col] <= this_row[col] { continue; }
+            if (row != height - 1) && map[row + 1][col] <= this_row[col] { continue; }
+            if (col != 0) && (this_row[col - 1] <= this_row[col]) { continue; }
+            if (col != (width - 1)) && (this_row[col + 1] <= this_row[col]) { continue; }
 
             risk_factor += this_row[col] + 1;
         }
     }
     risk_factor
 }
-
 
 fn part2(data: &str) -> usize {
     let map: Vec<Vec<isize>> = aoc2021::grid(data);
@@ -44,10 +41,10 @@ fn part2(data: &str) -> usize {
     for row in 0..height {
         let this_row = &map[row];
         for col in 0..width {
-            if (row != 0) && map[row-1][col] <= this_row[col] { continue; }
-            if (row != height - 1) && map[row+1][col] <= this_row[col] { continue; }
-            if (col != 0) && (this_row[col-1] <= this_row[col]) { continue; }
-            if (col != (width - 1)) && (this_row[col+1] <= this_row[col]) { continue; }
+            if (row != 0) && map[row - 1][col] <= this_row[col] { continue; }
+            if (row != height - 1) && map[row + 1][col] <= this_row[col] { continue; }
+            if (col != 0) && (this_row[col - 1] <= this_row[col]) { continue; }
+            if (col != (width - 1)) && (this_row[col + 1] <= this_row[col]) { continue; }
 
             basins.push(get_basin_size(&map, row, col, height, width));
         }
@@ -57,8 +54,13 @@ fn part2(data: &str) -> usize {
     basins[..3].iter().product()
 }
 
-
-fn get_basin_size(map: &[Vec<isize>], start_row: usize, start_col: usize, height: usize, width: usize) -> usize {
+fn get_basin_size(
+    map: &[Vec<isize>],
+    start_row: usize,
+    start_col: usize,
+    height: usize,
+    width: usize,
+) -> usize {
     let mut basin_size = 0;
 
     // Process this row
@@ -67,7 +69,7 @@ fn get_basin_size(map: &[Vec<isize>], start_row: usize, start_col: usize, height
 
     // Process rows below
     let mut previous_cols = start_cols.clone();
-    for row in (start_row+1)..height {
+    for row in (start_row + 1)..height {
         let mut these_cols = HashSet::new();
         for &c in &previous_cols {
             let new_cols = get_basin_row_around_point(&map[row], c, width);
@@ -107,29 +109,28 @@ fn get_basin_row_around_point(row: &[isize], point: usize, width: usize) -> Hash
     cols
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "2199943210
+    static DATA: &str = "2199943210
 3987894921
 9856789892
 8767896789
 9899965678";
 
-//     static DATA : &str = "9899965678
+//     static DATA: &str = "9899965678
 // 8767896789
 // 9856789892
 // 3987894921
 // 2199943210";
 
-//     static DATA : &str = "8765799989
+//     static DATA: &str = "8765799989
 // 9876987678
 // 2989876589
 // 1294987893
 // 0123499912";
 
-//     static DATA : &str = "0123499912
+//     static DATA: &str = "0123499912
 // 1294987893
 // 2989876589
 // 9876987678

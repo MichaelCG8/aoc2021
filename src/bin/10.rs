@@ -1,6 +1,5 @@
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/10");
@@ -11,7 +10,6 @@ fn main() {
 
     println!("Total: {:?}", start_total.elapsed())
 }
-
 
 fn part1(data: &str) -> usize {
     let openings = "([{<";
@@ -32,7 +30,7 @@ fn part1(data: &str) -> usize {
                 token_stack.push(closer);
             } else if match token_stack.last() {
                 Some(&last) => c == last,
-                None => false,  // token_stack is empty.
+                None => false, // token_stack is empty.
             } {
                 token_stack.pop();
             } else {
@@ -50,9 +48,7 @@ fn part1(data: &str) -> usize {
     }
 
     score
-
 }
-
 
 fn part2(data: &str) -> usize {
     let openings = "([{<";
@@ -73,7 +69,7 @@ fn part2(data: &str) -> usize {
                 token_stack.push(closer);
             } else if match token_stack.last() {
                 Some(&last) => c == last,
-                None => false,  // token_stack is empty.
+                None => false, // token_stack is empty.
             } {
                 token_stack.pop();
             } else {
@@ -100,11 +96,10 @@ fn part2(data: &str) -> usize {
     scores[mid_idx]
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "[({(<(())[]>[[{[]{<()<>>
+    static DATA: &str = "[({(<(())[]>[[{[]{<()<>>
 [(()[<>])]({[<{<<[]>>(
 {([(<{}[<>[]}>{[]{[(<()>
 (((({<>}<{<{<>}{[]{[]{}

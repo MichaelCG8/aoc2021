@@ -2,7 +2,6 @@ use std::collections::VecDeque;
 use std::ops::{Deref, DerefMut};
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/20");
@@ -65,7 +64,6 @@ impl Deref for Image {
     }
 }
 impl DerefMut for Image {
-
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.data
     }
@@ -87,10 +85,14 @@ fn process(data: &str, iterations: usize) -> usize {
 
     let mut image = VecDeque::new();
     for row in data.next().unwrap().lines() {
-        image.push_back( {
+        image.push_back(  {
             let mut row_vec = row
                 .chars()
-                .map(|c| match c { '.' => Element::new(0), '#' => Element::new(1), _ => panic!() })
+                .map(|c| match c {
+                    '.' => Element::new(0),
+                    '#' => Element::new(1),
+                    _ => panic!(),
+                })
                 .collect::<VecDeque<Element>>();
             row_vec.push_front(Element::new(0));
             row_vec.push_back(Element::new(0));
@@ -101,13 +103,12 @@ fn process(data: &str, iterations: usize) -> usize {
     image.push_front(std::iter::repeat(Element::new(0)).take(width).collect());
     image.push_back(std::iter::repeat(Element::new(0)).take(width).collect());
 
-
     let first_fill = 0;
     let first_toggle = algorithm[0];
     let second_toggle = if first_toggle == 0 { 0 } else { algorithm[(1<<9) - 1] };
     // TODO: Make this be read from the algorithm string.
     // NOTE: Fillers are 0, 0 for test data, 0, 1 for real data.
-    let mut image = Image{ data: image};
+    let mut image = Image { data: image};
     // println!("{}\n", image.to_string());
     enhance(&mut image, &algorithm, first_fill, first_toggle);
     // println!("{}\n", image.to_string());
@@ -116,18 +117,20 @@ fn process(data: &str, iterations: usize) -> usize {
 
     assert_eq!(iterations % 2, 0);
 
-    for _ in 0..((iterations - 2)/2) {
+    for _ in 0..((iterations - 2) / 2) {
         enhance(&mut image, &algorithm, second_toggle, first_toggle);
         enhance(&mut image, &algorithm, first_toggle, second_toggle);
     }
 
-    image.iter().map(|row| row.iter().map(|el| el.now).sum::<usize>()).sum()
+    image
+        .iter()
+        .map(|row| row.iter().map(|el| el.now).sum::<usize>())
+        .sum()
 }
 
 fn part2(data: &str) -> usize {
     process(data, 50)
 }
-
 
 fn enhance(image: &mut Image, algorithm: &[usize], now_filler: usize, next_filler: usize) {
     for row in image.iter_mut() {
@@ -136,13 +139,21 @@ fn enhance(image: &mut Image, algorithm: &[usize], now_filler: usize, next_fille
     }
     let new_width = image[0].len();
 
-    image.push_front(std::iter::repeat(Element{ now: now_filler, next: next_filler}).take(new_width).collect());
-    image.push_back(std::iter::repeat(Element{ now: now_filler, next: next_filler}).take(new_width).collect());
+    image.push_front(
+        std::iter::repeat(Element{ now: now_filler, next: next_filler})
+            .take(new_width)
+            .collect()
+    );
+    image.push_back(
+        std::iter::repeat(Element{ now: now_filler, next: next_filler})
+            .take(new_width)
+            .collect()
+    );
 
     // println!("{}\n", image.to_string());
 
-    for row in 1..(new_width as isize)-1 {
-        for col in 1..(image.len() as isize)-1 {
+    for row in 1..(new_width as isize) - 1 {
+        for col in 1..(image.len() as isize) - 1 {
             let mut index = 0;
             for r_offset in -1..=1 {
                 for c_offset in -1..=1 {
@@ -163,7 +174,7 @@ fn enhance(image: &mut Image, algorithm: &[usize], now_filler: usize, next_fille
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "..#.#..#####.#.#.#.###.##.....###.##.#..###.####..#####..#....#..#..##..##
+    static DATA: &str = "..#.#..#####.#.#.#.###.##.....###.##.#..###.####..#####..#....#..#..##..##
 #..######.###...####..#..#####..##..#.#####...##.#.#..#.##..#.#......#.###
 .######.###.####...#.##.##..#..#..#####.....#.#....###..#.##......#.....#.
 .#..#..##..#...##.######.####.####.#.#...#.......#..#.#.#...####.##.#.....

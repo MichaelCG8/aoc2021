@@ -1,6 +1,5 @@
-use std::time;
 use regex::Regex;
-
+use std::time;
 
 fn main() {
     let start_total = time::Instant::now();
@@ -13,12 +12,25 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn part1(data: &str) -> usize {
     let re = Regex::new(r"^Player \d starting position: (?P<pos>\d+)$").unwrap();
     let lines = data.lines().collect::<Vec<&str>>();
-    let mut pos1 = re.captures(lines[0]).unwrap().name("pos").unwrap().as_str().parse::<usize>().unwrap();
-    let mut pos2 = re.captures(lines[1]).unwrap().name("pos").unwrap().as_str().parse::<usize>().unwrap();
+    let mut pos1 = re
+        .captures(lines[0])
+        .unwrap()
+        .name("pos")
+        .unwrap()
+        .as_str()
+        .parse::<usize>()
+        .unwrap();
+    let mut pos2 = re
+        .captures(lines[1])
+        .unwrap()
+        .name("pos")
+        .unwrap()
+        .as_str()
+        .parse::<usize>()
+        .unwrap();
 
     let mut score1 = 0;
     let mut score2 = 0;
@@ -58,11 +70,10 @@ fn part1(data: &str) -> usize {
 //
 // }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "Player 1 starting position: 4
+    static DATA: &str = "Player 1 starting position: 4
 Player 2 starting position: 8";
 
     #[test]

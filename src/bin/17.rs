@@ -4,7 +4,6 @@ use aoc2021::math::{tri_isize, tri_base_isize, tri_inv};
 
 use regex::Regex;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/17");
@@ -15,7 +14,6 @@ fn main() {
 
     println!("Total: {:?}", start_total.elapsed())
 }
-
 
 fn part1(data: &str) -> isize {
     let re = Regex::new(r"^target area: x=(?P<x0>-?\d+)..(?P<x1>-?\d+), y=(?P<y0>-?\d+)..(?P<y1>-?\d+)\s*$").unwrap();
@@ -80,7 +78,6 @@ fn part1(data: &str) -> isize {
     largest_peak.unwrap()
 }
 
-
 fn part2(data: &str) -> usize {
     let re = Regex::new(r"^target area: x=(?P<x0>-?\d+)..(?P<x1>-?\d+), y=(?P<y0>-?\d+)..(?P<y1>-?\d+)\s*$").unwrap();
     let parsed = re.captures(data).unwrap();
@@ -123,11 +120,10 @@ fn part2(data: &str) -> usize {
     initial_velocities.len()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "target area: x=20..30, y=-10..-5";
+    static DATA: &str = "target area: x=20..30, y=-10..-5";
 
     #[test]
     fn part1_matches_sample() {

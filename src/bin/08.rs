@@ -2,7 +2,6 @@ use std::collections::HashMap;
 use std::str::FromStr;
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/08");
@@ -13,7 +12,6 @@ fn main() {
 
     println!("Total: {:?}", start_total.elapsed())
 }
-
 
 struct IO7Seg {
     input: Vec<String>,
@@ -31,14 +29,22 @@ impl FromStr for IO7Seg {
             .next()
             .unwrap()
             .split_whitespace()
-            .map(|s1| { let mut v = s1.chars().collect::<Vec<char>>(); v.sort_unstable(); v.iter().collect::<String>()})
+            .map(|s1| {
+                let mut v = s1.chars().collect::<Vec<char>>();
+                v.sort_unstable();
+                v.iter().collect::<String>()
+            })
             .collect();
 
         let output = sections
             .next()
             .unwrap()
             .split_whitespace()
-            .map(|s1| { let mut v = s1.chars().collect::<Vec<char>>(); v.sort_unstable(); v.iter().collect::<String>()})
+            .map(|s1| {
+                let mut v = s1.chars().collect::<Vec<char>>();
+                v.sort_unstable();
+                v.iter().collect::<String>()
+            })
             .collect();
 
         let patterns = None;
@@ -107,7 +113,6 @@ impl IO7Seg {
             }
         }
 
-
         // Of the six segment numbers, only 9 contains all of 3.
         for &digit in sixes.iter() {
             if patterns.get(&3).unwrap().chars().filter(|&c| digit.contains(c)).count()  == 5 {
@@ -138,26 +143,22 @@ impl IO7Seg {
     }
 }
 
-
 fn part1(data: &str) -> usize {
-    data
-        .lines()
+    data.lines()
         .map(|s| s.parse::<IO7Seg>().unwrap())
         .map(|io| io.count_output_1478())
         .sum()
 }
-
 
 fn part2(data: &str) -> usize {
     let mut data: Vec<IO7Seg> = data.lines().map(|s| s.parse().unwrap()).collect();
     data.iter_mut().map(|d| d.get_output_number()).sum()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
+    static DATA: &str = "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
 edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc
 fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg
 fbegcd cbd adcefb dageb afcb bc aefdc ecdab fgdeca fcdbega | efabcd cedba gadfec cb

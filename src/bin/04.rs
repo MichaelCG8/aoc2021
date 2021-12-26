@@ -10,8 +10,8 @@ struct Card {
 
 impl Card {
     pub fn new(data: &str) -> Self {
-        let mut numbers: [[isize; 5]; 5] = [[0; 5]; 5];  // TODO: Try to have initialized in the loop.
-        let row_totals= [0; 5];
+        let mut numbers: [[isize; 5]; 5] = [[0; 5]; 5]; // TODO: Try to have initialized in the loop.
+        let row_totals = [0; 5];
         let column_totals = [0; 5];
         let mut sum = 0;
         let result = 0;
@@ -24,7 +24,13 @@ impl Card {
             }
         }
 
-        Card{ numbers, row_totals, column_totals, sum, result }
+        Card {
+            numbers,
+            row_totals,
+            column_totals,
+            sum,
+            result,
+        }
     }
 
     pub fn mark(&mut self, value: isize) -> isize {
@@ -45,7 +51,6 @@ impl Card {
     }
 }
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/04");
@@ -57,10 +62,13 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn part1(data: &str) -> isize {
     let mut blocks = data.split("\n\n");
-    let numbers = blocks.next().unwrap().split(',').map(|s| s.parse().unwrap());
+    let numbers = blocks
+        .next()
+        .unwrap()
+        .split(',')
+        .map(|s| s.parse().unwrap());
 
     let mut cards: Vec<Card> = blocks.map(|s| Card::new(s)).collect();
 
@@ -75,10 +83,14 @@ fn part1(data: &str) -> isize {
     panic!("Didn't find an answer");
 }
 
-
 fn part2(data: &str) -> isize {
     let mut blocks = data.split("\n\n");
-    let numbers: Vec<isize> = blocks.next().unwrap().split(',').map(|s| s.parse().unwrap()).collect();
+    let numbers: Vec<isize> = blocks
+        .next()
+        .unwrap()
+        .split(',')
+        .map(|s| s.parse().unwrap())
+        .collect();
 
     let mut cards: Vec<Card> = blocks.map(|s| Card::new(s)).collect();
 
@@ -87,11 +99,14 @@ fn part2(data: &str) -> isize {
         for card in cards.iter_mut() {
             card.mark(value);
         }
-        cards.retain(|c| {c.result == 0});
-        if cards.len() == 1 { idx = i; break; }
+        cards.retain(|c| c.result == 0);
+        if cards.len() == 1 {
+            idx = i;
+            break;
+        }
     }
     let card = &mut cards[0];
-    for &value in numbers[idx+1..].iter() {
+    for &value in numbers[idx + 1..].iter() {
         let result = card.mark(value);
         if result != 0 {
             return result;
@@ -101,11 +116,10 @@ fn part2(data: &str) -> isize {
     panic!("Didn't find an answer.");
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
+    static DATA: &str = "7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
 
 22 13 17 11  0
  8  2 23  4 24

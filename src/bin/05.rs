@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/05");
@@ -24,7 +23,7 @@ impl Point {
         let (x, y) = s.split_once(",").unwrap();
         let x = x.parse().unwrap();
         let y = y.parse().unwrap();
-        Self{ x, y }
+        Self { x, y }
     }
 }
 
@@ -38,54 +37,52 @@ impl Line {
         let (p1, p2) = s.split_once(" -> ").unwrap();
         let p1 = Point::new(p1);
         let p2 = Point::new(p2);
-        Self{ p1, p2 }
+        Self { p1, p2 }
     }
 
-    pub fn iter_points_v_h(&self) -> Box<dyn Iterator<Item=Point>>{
+    pub fn iter_points_v_h(&self) -> Box<dyn Iterator<Item = Point>> {
         let (x1, x2) = (self.p1.x, self.p2.x);
         let (y1, y2) = (self.p1.y, self.p2.y);
 
         if x1 == x2 {
             let x = x1;
-            let range = if y1 < y2 {y1..=y2} else {y2..=y1};
-            Box::new(range.map(move |y| Point{ x, y }))
+            let range = if y1 < y2 { y1..=y2 } else { y2..=y1 };
+            Box::new(range.map(move |y| Point { x, y }))
         } else if y1 == y2 {
             let y = y1;
-            let range = if x1 < x2 {x1..=x2} else {x2..=x1};
-            Box::new(range.map(move |x| Point{ x, y }))
+            let range = if x1 < x2 { x1..=x2 } else { x2..=x1 };
+            Box::new(range.map(move |x| Point { x, y }))
         } else {
-            Box::new((0..0).map(|_| Point{ x: 0, y: 0 }))
+            Box::new((0..0).map(|_| Point { x: 0, y: 0 }))
         }
     }
 
-    pub fn iter_points_all(&self) -> Box<dyn Iterator<Item=Point>>{
+    pub fn iter_points_all(&self) -> Box<dyn Iterator<Item = Point>> {
         let (x1, x2) = (self.p1.x, self.p2.x);
         let (y1, y2) = (self.p1.y, self.p2.y);
 
         if x1 == x2 {
             let x = x1;
-            let range = if y1 < y2 {y1..=y2} else {y2..=y1};
-            Box::new(range.map(move |y| Point{ x, y }))
+            let range = if y1 < y2 { y1..=y2 } else { y2..=y1 };
+            Box::new(range.map(move |y| Point { x, y }))
         } else if y1 == y2 {
             let y = y1;
-            let range = if x1 < x2 {x1..=x2} else {x2..=x1};
-            Box::new(range.map(move |x| Point{ x, y }))
+            let range = if x1 < x2 { x1..=x2 } else { x2..=x1 };
+            Box::new(range.map(move |x| Point { x, y }))
         } else {
-            let xrange = if x1 < x2 {x1..=x2} else {x2..=x1};
-            let yrange = if y1 < y2 {y1..=y2} else {y2..=y1};
+            let xrange = if x1 < x2 { x1..=x2 } else { x2..=x1 };
+            let yrange = if y1 < y2 { y1..=y2 } else { y2..=y1 };
             if (x1 < x2 && y1 < y2) || (x1 > x2 && y1 > y2) {
-                Box::new(xrange.zip(yrange).map(move |(x, y)| Point{ x, y }))
+                Box::new(xrange.zip(yrange).map(move |(x, y)| Point { x, y }))
             } else {
-                Box::new(xrange.rev().zip(yrange).map(move |(x, y)| Point{ x, y }))
+                Box::new(xrange.rev().zip(yrange).map(move |(x, y)| Point { x, y }))
             }
         }
     }
 }
 
 fn part1(data: &str) -> usize {
-    let lines = data
-        .lines()
-        .map(|l| Line::new(l));
+    let lines = data.lines().map(|l| Line::new(l));
 
     let mut vents = HashSet::new();
     let mut more_vents = HashSet::new();
@@ -102,9 +99,7 @@ fn part1(data: &str) -> usize {
 }
 
 fn part2(data: &str) -> usize {
-    let lines = data
-        .lines()
-        .map(|l| Line::new(l));
+    let lines = data.lines().map(|l| Line::new(l));
 
     let mut vents = HashSet::new();
     let mut more_vents = HashSet::new();
@@ -120,11 +115,10 @@ fn part2(data: &str) -> usize {
     more_vents.len()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "0,9 -> 5,9
+    static DATA: &str = "0,9 -> 5,9
 8,0 -> 0,8
 9,4 -> 3,4
 2,2 -> 2,1

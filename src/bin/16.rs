@@ -1,6 +1,5 @@
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/16");
@@ -12,10 +11,8 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn hex_to_bin(hex: &str) -> String {
-    hex
-        .trim()
+    hex.trim()
         .chars()
         .map(|c| u8::from_str_radix(c.to_string().as_str(), 16).unwrap())
         .map(|num| format!("{:04b}", num))
@@ -24,18 +21,15 @@ fn hex_to_bin(hex: &str) -> String {
         .to_string()
 }
 
-
 fn parse_binary(binary: &str) -> usize {
     usize::from_str_radix(binary, 2).unwrap()
 }
-
 
 fn parse_group(binary: &str) -> (bool, usize) {
     let last = &binary[..1] == "0";
     let value = parse_binary(&binary[1..]);
     (last, value)
 }
-
 
 struct Packet {
     version: usize,
@@ -67,7 +61,6 @@ impl Packet {
         }
     }
 }
-
 
 fn parse_packet(mut binary: String) -> (Packet, String) {
     let version = parse_binary(&binary[..3]);
@@ -124,9 +117,7 @@ fn parse_packet(mut binary: String) -> (Packet, String) {
     (packet, binary)
 }
 
-
-fn parse_packets(mut binary: String) -> Vec<Packet>
-{
+fn parse_packets(mut binary: String) -> Vec<Packet> {
     let mut result = Vec::new();
     while !binary.is_empty() {
         if binary.chars().all(|c| c == '0') { break; }
@@ -143,19 +134,17 @@ fn part1(data: &str) -> usize {
     packet.sum_versions()
 }
 
-
 fn part2(data: &str) -> usize {
     let binary_string = hex_to_bin(data);
     let (packet, _trimmed_binary) = parse_packet(binary_string);
     packet.value()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "8A004A801A8002F478";
-    // static DATA : &str = "38006F45291200";
+    static DATA: &str = "8A004A801A8002F478";
+    // static DATA: &str = "38006F45291200";
 
     #[test]
     fn part1_matches_sample() {

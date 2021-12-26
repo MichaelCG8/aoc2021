@@ -2,7 +2,6 @@ use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/13");
@@ -13,7 +12,6 @@ fn main() {
 
     println!("Total: {:?}", start_total.elapsed())
 }
-
 
 struct Grid {
     elements: Vec<Vec<bool>>,
@@ -50,10 +48,12 @@ impl FromStr for Grid {
     }
 }
 
-
 impl Grid {
     fn count_dots(&self) -> usize {
-        self.elements.iter().map(|row| row.iter().filter(|&&el| el).count()).sum()
+        self.elements
+            .iter()
+            .map(|row| row.iter().filter(|&&el| el).count())
+            .sum()
     }
 
     fn fold(&mut self, fold: &Fold) {
@@ -65,7 +65,7 @@ impl Grid {
     }
 
     fn fold_x(&mut self, line: usize) {
-        for source in (line+1)..self.width {
+        for source in (line + 1)..self.width {
             let offset = source - line;
             let dest = line - offset;
             for row in 0..self.height {
@@ -79,7 +79,7 @@ impl Grid {
     }
 
     fn fold_y(&mut self, line: usize) {
-        for source in (line+1)..self.height {
+        for source in (line + 1)..self.height {
             let offset = source - line;
             let dest = line - offset;
             for col in 0..self.width {
@@ -98,7 +98,10 @@ impl Display for Grid {
             "{}",
             self.elements
                 .iter()
-                .map(|row| row.iter().map(|&c| if c {'#'} else {'.'}).collect::<String>())
+                .map(
+                    |row| row
+                        .iter()
+                        .map(|&c| if c {'#'} else {'.'}).collect::<String>())
                 .collect::<Vec<String>>()
                 .join("\n")
         )
@@ -120,14 +123,17 @@ impl FromStr for Fold {
     }
 }
 
-
 fn parse_input(data: &str) -> (Grid, Vec<Fold>) {
     let mut sections = data.split("\n\n");
     let grid = Grid::from_str(sections.next().unwrap()).unwrap();
-    let folds = sections.next().unwrap().lines().map(|l| Fold::from_str(l).unwrap()).collect();
+    let folds = sections
+        .next()
+        .unwrap()
+        .lines()
+        .map(|l| Fold::from_str(l).unwrap())
+        .collect();
     (grid, folds)
 }
-
 
 fn part1(data: &str) -> usize {
     let (mut grid, folds) = parse_input(data);
@@ -144,11 +150,10 @@ fn part2(data: &str) -> isize {
     0
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA_0 : &str = "...#..#..#.
+    static DATA_0: &str = "...#..#..#.
 ....#......
 ...........
 #..........
@@ -163,21 +168,21 @@ mod tests {
 ......#...#
 #..........
 #.#........";
-    static DATA_1 : &str = "#.##..#..#.
+    static DATA_1: &str = "#.##..#..#.
 #...#......
 ......#...#
 #...#......
 .#.#..#.###
 ...........
 ...........";
-    static DATA_2 : &str = "#####
+    static DATA_2: &str = "#####
 #...#
 #...#
 #...#
 #####
 .....
 .....";
-    static INSTRUCTIONS : &str = "6,10
+    static INSTRUCTIONS: &str = "6,10
 0,14
 9,10
 0,3

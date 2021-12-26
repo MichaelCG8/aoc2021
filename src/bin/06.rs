@@ -1,6 +1,5 @@
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/06");
@@ -12,7 +11,6 @@ fn main() {
 
     println!("Total: {:?}", start_total.elapsed())
 }
-
 
 fn part1(data: &str, days: isize) -> isize {
     let ages_list: Vec<usize> = aoc2021::comma_separated_to_vec::<usize>(data);
@@ -30,13 +28,10 @@ fn part1(data: &str, days: isize) -> isize {
     ages.iter().sum()
 }
 
-
-
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "3,4,3,1,2";
+    static DATA: &str = "3,4,3,1,2";
 
     #[test]
     fn part1_matches_sample() {

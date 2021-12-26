@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/14");
@@ -85,23 +84,20 @@ fn get_final_polymer(data: &str, steps: usize) -> Polymer {
     polymer
 }
 
-
 fn part1(data: &str) -> usize {
     let polymer = get_final_polymer(data, 10);
     polymer.greatest_diff()
 }
-
 
 fn part2(data: &str) -> usize {
     let polymer = get_final_polymer(data, 40);
     polymer.greatest_diff()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "NNCB
+    static DATA: &str = "NNCB
 
 CH -> B
 HH -> N

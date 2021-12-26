@@ -5,7 +5,6 @@ use std::ops::RangeFrom;
 use std::str::Chars;
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/18");
@@ -16,7 +15,6 @@ fn main() {
 
     println!("Total: {:?}", start_total.elapsed())
 }
-
 
 struct Node {
     id: Option<usize>,
@@ -100,7 +98,6 @@ impl Node {
         }
     }
 
-
     fn to_string(&self, tree: &Tree) -> String {
         match self.value {
             Some(val) => format!("{}", val),
@@ -113,13 +110,11 @@ impl Node {
     }
 }
 
-
 struct Tree {
     arena: HashMap<usize, Node>,
     root_id: usize,
     s: String,
 }
-
 
 impl Tree {
     fn new(root_id: usize) -> Self {
@@ -155,7 +150,6 @@ impl Display for Tree {
         write!(f, "{}", self.get(self.root_id).unwrap().to_string(self))
     }
 }
-
 
 fn add(mut a: Tree, mut b: Tree, id_generator: &mut RangeFrom<usize>) -> Tree {
     let root_id = id_generator.next().unwrap();
@@ -222,7 +216,7 @@ fn reduce(tree: &mut Tree, id_generator: &mut RangeFrom<usize>) {
         match operation {
             None => break,
             Some(op) => match op {
-                Operation::Explode{ this, left, right} => {
+                Operation::Explode { this, left, right} => {
                     let mut remove_list = Vec::new();
                     {
                         let this_node = tree.get(this).unwrap();
@@ -249,7 +243,7 @@ fn reduce(tree: &mut Tree, id_generator: &mut RangeFrom<usize>) {
                     let id = id_generator.next().unwrap();
                     node.id = Some(id);
                     node.parent = Some(this);
-                    node.value = Some(value / 2);  // value/2 rounded down.
+                    node.value = Some(value / 2); // value/2 rounded down.
                     tree.insert(id, node);
                     let this_node_mut = tree.get_mut(this).unwrap();
                     this_node_mut.children.push(id);
@@ -258,26 +252,25 @@ fn reduce(tree: &mut Tree, id_generator: &mut RangeFrom<usize>) {
                     let id = id_generator.next().unwrap();
                     node.id = Some(id);
                     node.parent = Some(this);
-                    node.value = Some(value - value / 2);  // value/2 rounded up.
+                    node.value = Some(value - value / 2); // value/2 rounded up.
                     tree.insert(id, node);
                     let this_node_mut = tree.get_mut(this).unwrap();
                     this_node_mut.children.push(id);
 
                     this_node_mut.value = None;
                 },
-            }
+            },
         }
         tree.s = tree.to_string();
     }
 }
 
-
 fn part1(data: &str) -> isize {
     let mut id_generator = 0..;
-    let numbers: Vec<Tree> = data.
-        lines()
+    let numbers: Vec<Tree> = data
+        .lines()
         .map(|line| {
-            let mut c_iter = line[1..line.len()-1].chars();  // strip outer []
+            let mut c_iter = line[1..line.len() - 1].chars(); // strip outer []
             let root_id = id_generator.next().unwrap();
             let mut tree: Tree = Tree::new(root_id);
             let mut root = Node {
@@ -291,7 +284,6 @@ fn part1(data: &str) -> isize {
             tree
         })
         .collect();
-
 
     let sum = numbers
         .into_iter()
@@ -321,11 +313,10 @@ fn part1(data: &str) -> isize {
 //
 // }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "[[[0,[5,8]],[[1,7],[9,6]]],[[4,[1,2]],[[1,4],2]]]
+    static DATA: &str = "[[[0,[5,8]],[[1,7],[9,6]]],[[4,[1,2]],[[1,4],2]]]
 [[[5,[2,8]],4],[5,[[9,9],0]]]
 [6,[[[6,2],[5,6]],[[7,6],[4,7]]]]
 [[[6,[0,7]],[0,9]],[4,[9,[9,0]]]]
@@ -338,13 +329,15 @@ mod tests {
 
     #[test]
     fn part1_matches_sample() {
-
         assert_eq!(part1(DATA), 4140);
     }
 
     #[test]
     fn temp() {
-        assert_eq!(sum_helper(vec!["[[[[4,3],4],4],[7,[[8,4],9]]]", "[1,1]"]), "[[[[0,7],4],[[7,8],[6,0]]],[8,1]]".to_string());
+        assert_eq!(
+            sum_helper(vec!["[[[[4,3],4],4],[7,[[8,4],9]]]", "[1,1]"]),
+            "[[[[0,7],4],[[7,8],[6,0]]],[8,1]]".to_string(),
+        );
     }
 
     fn reduce_helper(s: &str) -> String {
@@ -370,21 +363,24 @@ mod tests {
     fn sum_helper(strs: Vec<&str>) -> String {
         let mut id_generator = 0..;
 
-        let numbers: Vec<Tree> = strs.iter().map(|s| {
-            let mut c_iter = s[1..s.len()-1].chars();  // strip outer []
-            let root_id = id_generator.next().unwrap();
-            let mut tree: Tree = Tree::new(root_id);
-            let mut root = Node {
-                id: Some(root_id),
-                parent: None,
-                value: None,
-                children: Vec::new(),
-            };
-            root.add_children_from_chars(&mut c_iter, &mut tree, &mut id_generator);
-            tree.insert(root_id, root);
-            tree.s = tree.to_string();
-            tree
-        }).collect();
+        let numbers: Vec<Tree> = strs
+            .iter()
+            .map(|s| {
+                let mut c_iter = s[1..s.len()-1].chars(); // strip outer []
+                let root_id = id_generator.next().unwrap();
+                let mut tree: Tree = Tree::new(root_id);
+                let mut root = Node {
+                    id: Some(root_id),
+                    parent: None,
+                    value: None,
+                    children: Vec::new(),
+                };
+                root.add_children_from_chars(&mut c_iter, &mut tree, &mut id_generator);
+                tree.insert(root_id, root);
+                tree.s = tree.to_string();
+                tree
+            })
+            .collect();
 
         let sum = numbers
             .into_iter()
@@ -403,7 +399,13 @@ mod tests {
         // assert_eq!(sum_helper(vec!["[1,1]", "[2,2]", "[3,3]", "[4,4]"]), "[[[[1,1],[2,2]],[3,3]],[4,4]]".to_string());
         // assert_eq!(sum_helper(vec!["[1,1]", "[2,2]", "[3,3]", "[4,4]", "[5,5]"]), "[[[[3,0],[5,3]],[4,4]],[5,5]]".to_string());
         // assert_eq!(sum_helper(vec!["[1,1]", "[2,2]", "[3,3]", "[4,4]", "[5,5]", "[6,6]"]), "[[[[5,0],[7,4]],[5,5]],[6,6]]".to_string());
-        assert_eq!(sum_helper(vec!["[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]", "[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]"]), "[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]]".to_string());
+        assert_eq!(
+            sum_helper(vec![
+                "[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]",
+                "[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]",
+            ]),
+            "[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]]".to_string()
+        );
         // assert_eq!(sum_helper(vec!["[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]", "[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]", "[[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]", "[[[[2,4],7],[6,[0,5]]],[[[6,8],[2,8]],[[2,1],[4,5]]]]", "[7,[5,[[3,8],[1,4]]]]", "[[2,[2,2]],[8,[8,1]]]", "[2,9]", "[1,[[[9,3],9],[[9,0],[0,7]]]]", "[[[5,[7,4]],7],1]", "[[[[4,2],2],6],[8,7]]"]), "[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]".to_string());
         // assert_eq!(sum_helper(vec![]), "".to_string());
         // assert_eq!(sum_helper(vec![]), "".to_string());

@@ -1,6 +1,5 @@
-use std::time;
 use aoc2021::math::tri_f64;
-
+use std::time;
 
 fn main() {
     let start_total = time::Instant::now();
@@ -13,14 +12,12 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn part1(data: &str) -> isize {
     let mut locations: Vec<isize> = aoc2021::comma_separated_to_vec(data);
     locations.sort_unstable();
     let median = locations[locations.len() / 2];
-    locations.iter().map(|&l|  (l - median).abs()).sum()
+    locations.iter().map(|&l| (l - median).abs()).sum()
 }
-
 
 fn part2(data: &str) -> f64 {
     let locations: Vec<f64> = aoc2021::comma_separated_to_vec(data);
@@ -35,11 +32,10 @@ fn part2(data: &str) -> f64 {
     if at_low < at_high { at_low } else { at_high }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "16,1,2,0,4,2,7,1,2,14";
+    static DATA: &str = "16,1,2,0,4,2,7,1,2,14";
 
     #[test]
     fn part1_matches_sample() {

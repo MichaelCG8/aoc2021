@@ -1,5 +1,5 @@
-use std::time;
 use regex::Regex;
+use std::time;
 
 // 597600, too low
 
@@ -14,34 +14,34 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn part1(data: &str) -> usize {
     let mut engine = [[[false; 101]; 101]; 101];
     let re = Regex::new(r"^(?P<op>on|off) x=(?P<x_lo>-?\d+)..(?P<x_hi>-?\d+),y=(?P<y_lo>-?\d+)..(?P<y_hi>-?\d+),z=(?P<z_lo>-?\d+)..(?P<z_hi>-?\d+)$").unwrap();
 
+    let captures = re.captures(line).unwrap();
     for line in data.lines() {
-        let setting = re.captures(line).unwrap().name("op").unwrap().as_str() == "on";
-        let mut x_lo = re.captures(line).unwrap().name("x_lo").unwrap().as_str().parse::<isize>().unwrap();
+        let setting = captures.name("op").unwrap().as_str() == "on";
+        let mut x_lo = captures.name("x_lo").unwrap().as_str().parse::<isize>().unwrap();
         if x_lo < -50 { x_lo = -50; }
         else if x_lo > 50 { continue; }
         let x_lo = (x_lo + 50) as usize;
-        let mut x_hi = re.captures(line).unwrap().name("x_hi").unwrap().as_str().parse::<isize>().unwrap();
+        let mut x_hi = captures.name("x_hi").unwrap().as_str().parse::<isize>().unwrap();
         if x_hi < -50 { continue; }
         else if x_hi > 50 { x_hi = 50; }
         let x_hi = (x_hi + 50) as usize;
-        let mut y_lo = re.captures(line).unwrap().name("y_lo").unwrap().as_str().parse::<isize>().unwrap();
+        let mut y_lo = captures.name("y_lo").unwrap().as_str().parse::<isize>().unwrap();
         if y_lo < -50 { y_lo = -50; }
         else if y_lo > 50 { continue; }
         let y_lo = (y_lo + 50) as usize;
-        let mut y_hi = re.captures(line).unwrap().name("y_hi").unwrap().as_str().parse::<isize>().unwrap();
+        let mut y_hi = captures.name("y_hi").unwrap().as_str().parse::<isize>().unwrap();
         if y_hi < -50 { continue; }
         else if y_hi > 50 { y_hi = 50; }
         let y_hi = (y_hi + 50) as usize;
-        let mut z_lo = re.captures(line).unwrap().name("z_lo").unwrap().as_str().parse::<isize>().unwrap();
+        let mut z_lo = captures.name("z_lo").unwrap().as_str().parse::<isize>().unwrap();
         if z_lo < -50 { z_lo = -50; }
         else if z_lo > 50 { continue; }
         let z_lo = (z_lo + 50) as usize;
-        let mut z_hi = re.captures(line).unwrap().name("z_hi").unwrap().as_str().parse::<isize>().unwrap();
+        let mut z_hi = captures.name("z_hi").unwrap().as_str().parse::<isize>().unwrap();
         if z_hi < -50 { continue; }
         else if z_hi > 50 { z_hi = 50; }
         let z_hi = (z_hi + 50) as usize;
@@ -59,22 +59,19 @@ fn part1(data: &str) -> usize {
 
     engine
         .iter()
-        .map(
-            |plane|
-            plane
-                .iter()
-                .map(
-                    |line|
-                    line
-                        .iter()
-                        .filter(|&&el| el)
-                        .count()
-                )
-                .sum::<usize>()
+        .map(|plane|plane
+            .iter()
+            .map(
+                |line|
+                line
+                    .iter()
+                    .filter(|&&el| el)
+                    .count()
+            )
+            .sum::<usize>()
         )
         .sum()
 }
-
 
 struct Cuboid {
     x_lo: i64,
@@ -91,7 +88,6 @@ impl Cuboid {
     }
 }
 
-
 fn part2(data: &str) -> usize {
     // Start with a cuboid.
     // For later cuboids, if they intersect with an existing cuboid and are "off" then split the
@@ -103,13 +99,14 @@ fn part2(data: &str) -> usize {
     let mut cuboids = Vec::new();
 
     for line in data.lines() {
-        let setting = re.captures(line).unwrap().name("op").unwrap().as_str();
-        let mut x_lo = re.captures(line).unwrap().name("x_lo").unwrap().as_str().parse().unwrap();
-        let mut x_hi = re.captures(line).unwrap().name("x_hi").unwrap().as_str().parse().unwrap();
-        let mut y_lo = re.captures(line).unwrap().name("y_lo").unwrap().as_str().parse().unwrap();
-        let mut y_hi = re.captures(line).unwrap().name("y_hi").unwrap().as_str().parse().unwrap();
-        let mut z_lo = re.captures(line).unwrap().name("z_lo").unwrap().as_str().parse().unwrap();
-        let mut z_hi = re.captures(line).unwrap().name("z_hi").unwrap().as_str().parse().unwrap();
+        let captures = re.captures(line).unwrap();
+        let setting = captures.name("op").unwrap().as_str();
+        let mut x_lo = captures.name("x_lo").unwrap().as_str().parse().unwrap();
+        let mut x_hi = captures.name("x_hi").unwrap().as_str().parse().unwrap();
+        let mut y_lo = captures.name("y_lo").unwrap().as_str().parse().unwrap();
+        let mut y_hi = captures.name("y_hi").unwrap().as_str().parse().unwrap();
+        let mut z_lo = captures.name("z_lo").unwrap().as_str().parse().unwrap();
+        let mut z_hi = captures.name("z_hi").unwrap().as_str().parse().unwrap();
 
         let mut new_cuboids = Vec::new();
         let mut remove_cuboids = Vec::new();
@@ -119,7 +116,8 @@ fn part2(data: &str) -> usize {
                 && y_lo <= cuboid.y_hi
                 && y_hi >= cuboid.y_lo
                 && z_lo <= cuboid.z_hi
-                && z_hi >= cuboid.z_lo {
+                && z_hi >= cuboid.z_lo
+            {
                 // Mark this cuboid for removal.
                 remove_cuboids.push(i);
 
@@ -138,11 +136,10 @@ fn part2(data: &str) -> usize {
     cuboids.iter().map(|cuboid| cuboid.get_volume()).sum()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA1 : &str = "on x=-20..26,y=-36..17,z=-47..7
+    static DATA1: &str = "on x=-20..26,y=-36..17,z=-47..7
 on x=-20..33,y=-21..23,z=-26..28
 on x=-22..28,y=-29..23,z=-38..16
 on x=-46..7,y=-6..46,z=-50..-1
@@ -167,14 +164,17 @@ on x=967..23432,y=45373..81175,z=27513..53682";
 
     #[test]
     fn part1_matches_sample() {
-        assert_eq!(part1("on x=10..12,y=10..12,z=10..12
+        assert_eq!(
+            part1("on x=10..12,y=10..12,z=10..12
 on x=11..13,y=11..13,z=11..13
 off x=9..11,y=9..11,z=9..11
-on x=10..10,y=10..10,z=10..10"), 39);
+on x=10..10,y=10..10,z=10..10"),
+            39
+        );
         assert_eq!(part1(DATA1), 590784);
     }
 
-    static DATA2 : &str = "on x=-5..47,y=-31..22,z=-19..33
+    static DATA2: &str = "on x=-5..47,y=-31..22,z=-19..33
 on x=-44..5,y=-27..21,z=-14..35
 on x=-49..-1,y=-11..42,z=-10..38
 on x=-20..34,y=-40..6,z=-44..1

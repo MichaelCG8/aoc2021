@@ -1,6 +1,5 @@
 use std::time;
 
-
 fn main() {
     let start_total = time::Instant::now();
     let data = include_str!("../../inputs/01");
@@ -14,23 +13,20 @@ fn main() {
     println!("Total: {:?}", start_total.elapsed())
 }
 
-
 fn part1(data: &str) -> usize {
     let depths: Vec<isize> = aoc2021::lines_to_vec(data);
     depths.windows(2).filter(|w| w[1] > w[0]).count()
 }
-
 
 fn part2(data: &str) -> usize {
     let depths: Vec<isize> = aoc2021::lines_to_vec(data);
     depths.windows(4).filter(|w| w[3] > w[0]).count()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    static DATA : &str = "199
+    static DATA: &str = "199
 200
 208
 210
